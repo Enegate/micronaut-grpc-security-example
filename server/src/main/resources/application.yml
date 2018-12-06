@@ -1,0 +1,21 @@
+micronaut:
+  grpc:
+#    port: 9876
+#    healthcheck: true
+#    reflection: true
+#    inprocess: true
+#    inprocessname: aName
+  security:
+    enabled: true
+    endpoints:
+      login:
+        enabled: true
+      oauth:
+        enabled: true
+    token:
+      jwt:
+        enabled: true
+        signatures:
+          secret:
+            generator:
+              secret: pleaseChangeThisSecretForANewOne

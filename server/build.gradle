@@ -1,0 +1,42 @@
+buildscript {
+    ext {
+        micronautGrpcServerVersion = "0.0.2"
+        micronautGrpcSecurityVersion = "0.0.1"
+    }
+}
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "net.ltgt.apt-eclipse" version "0.18"
+    id "net.ltgt.apt-idea" version "0.18"
+}
+
+apply plugin: "application"
+apply plugin: "java"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.micronaut:micronaut-bom:1.0.1"
+    }
+}
+
+dependencies {
+    annotationProcessor "io.micronaut:micronaut-inject-java"
+    compile "io.micronaut:micronaut-runtime"
+    compile "com.enegate:micronaut-grpc-server:$micronautGrpcServerVersion"
+    compile project(":proto")
+
+    annotationProcessor "io.micronaut:micronaut-security"
+    compile "com.enegate:micronaut-grpc-security:$micronautGrpcSecurityVersion"
+    compile "io.micronaut:micronaut-security-jwt"
+    compile "io.micronaut:micronaut-http-server-netty"
+
+    runtime "ch.qos.logback:logback-classic:1.2.3"
+}
+
+mainClassName = "com.enegate.micronaut.grpc.server.example.Main"

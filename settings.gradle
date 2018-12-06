@@ -1,0 +1,5 @@
+rootProject.name = "micronaut-grpc-security-example"
+
+include("client")
+include("server")
+include("proto")

@@ -1,0 +1,30 @@
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+}
+
+apply plugin: "application"
+apply plugin:"java"
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "io.micronaut:micronaut-bom:1.0.1"
+    }
+}
+
+dependencies {
+    compile "io.grpc:grpc-netty-shaded:1.16.1"
+    compile("io.grpc:grpc-protobuf:1.16.1")
+    compile("io.grpc:grpc-stub:1.16.1")
+    compile project(":proto")
+
+    compile "io.micronaut:micronaut-http-client"
+    compile "io.micronaut:micronaut-security"
+
+    runtime "ch.qos.logback:logback-classic:1.2.3"
+}
+
+mainClassName = "com.enegate.micronaut.grpc.client.example.Main"
