@@ -1,7 +1,7 @@
 buildscript {
     ext {
         micronautGrpcServerVersion = "0.0.2"
-        micronautGrpcSecurityVersion = "0.0.1"
+        micronautGrpcSecurityVersion = "0.0.2"
     }
 }
 

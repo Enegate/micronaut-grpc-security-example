@@ -19,10 +19,13 @@ package com.enegate.micronaut.grpc.server.example;
 import com.enegate.micronaut.grpc.proto.example.GreeterGrpc;
 import com.enegate.micronaut.grpc.proto.example.HelloReply;
 import com.enegate.micronaut.grpc.proto.example.HelloRequest;
+import com.enegate.micronaut.grpc.security.GrpcSecurityContext;
 import com.enegate.micronaut.grpc.server.annotation.GrpcService;
 import com.enegate.micronaut.grpc.server.example.interceptor.GreeterServiceInterceptor;
+import io.grpc.Context;
 import io.grpc.stub.StreamObserver;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,7 @@ public class GreeterService extends GreeterGrpc.GreeterImplBase {
     @Override
     public void sayHello(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
         LOG.info("gRPC service called: " + GreeterGrpc.getSayHelloMethod().getFullMethodName());
+        LOG.info("Authenticated User: " + GrpcSecurityContext.getAuthentication().getName());
         HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + request.getName()).build();
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
@@ -58,6 +62,7 @@ public class GreeterService extends GreeterGrpc.GreeterImplBase {
     @Secured({"ROLE_ADMIN", "ROLE_X"})
     public void sayHelloRoles(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
         LOG.info("gRPC service called: " + GreeterGrpc.getSayHelloRolesMethod().getFullMethodName());
+        LOG.info("Authenticated User: " + GrpcSecurityContext.getAuthentication().getName());
         HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + request.getName()).build();
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
